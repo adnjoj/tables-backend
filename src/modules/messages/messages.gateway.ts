@@ -21,7 +21,7 @@ import { GatewayConnectionsStore } from './stores/gateway-connections.store';
 import { MessagesService } from './messages.service';
 import { GroupsService } from '../groups/groups.service';
 
-@WebSocketGateway(3001, { cors: true })
+@WebSocketGateway(2001, { cors: true })
 @UseGuards(WebsocketsJwtAuthGuard)
 export class MessagesGateway {
   constructor(

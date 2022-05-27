@@ -2,6 +2,9 @@
 /dist
 /node_modules
 
+# Server connection key
+server-key.pem
+
 # Logs
 logs
 *.log
