@@ -1,5 +1,6 @@
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { getConnectionOptions } from 'typeorm';
 
@@ -25,6 +26,7 @@ import { AppService } from './app.service';
           autoLoadEntities: true,
         }),
     }),
+    ConfigModule.forRoot({ isGlobal: true }),
     CaslModule,
     UsersModule,
     AuthModule,
