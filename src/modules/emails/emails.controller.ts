@@ -12,7 +12,7 @@ export class EmailsController {
   constructor(private readonly emailsService: EmailsService) {}
 
   @Post('check')
-  checkEmail(@Body() { email }: CheckEmailDto): Promise<{ valid: boolean }> {
+  checkEmail(@Body() { email }: CheckEmailDto): Promise<{ exists: boolean }> {
     return this.emailsService.checkEmail(email);
   }
 

@@ -25,10 +25,6 @@ export class UsersService {
     return this.userRepository.save(dto);
   }
 
-  async checkEmail(email: string): Promise<boolean> {
-    return !Boolean(await this.findOne({ email }));
-  }
-
   async checkPhone(phone: string): Promise<boolean> {
     return !Boolean(await this.findOne({ phone }));
   }

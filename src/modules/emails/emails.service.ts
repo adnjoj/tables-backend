@@ -23,8 +23,8 @@ export class EmailsService {
     verificationCodeRepository.delete({ id: MoreThanOrEqual(0) });
   }
 
-  async checkEmail(email: string): Promise<{ valid: boolean }> {
-    return { valid: await this.usersService.checkEmail(email) };
+  async checkEmail(email: string): Promise<{ exists: boolean }> {
+    return { exists: Boolean(await this.usersService.findOne({ email })) };
   }
 
   async requestVerification(email: string): Promise<{ requestTime: Date }> {
