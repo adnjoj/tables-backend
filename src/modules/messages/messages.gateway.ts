@@ -31,15 +31,18 @@ export class MessagesGateway {
     private readonly caslAbilityFactory: CaslAbilityFactory,
   ) {}
 
+  @SubscribeMessage('initialize')
+  handleInitialization(@ConnectedSocket() client: Socket) {
+    const sender = client.data.user;
+    this.gatewayConnectionsStore.addConnection(sender.id, client);
+  }
+
   @SubscribeMessage('message')
   async handleMessage(
     @MessageBody() data: any,
     @ConnectedSocket() client: Socket,
   ): Promise<void> {
     const sender = client.data.user;
-    this.gatewayConnectionsStore.addConnection(sender.id, client);
-
-    if (data.isInitial) return;
 
     const text = await this.messagesService.decryptMessage(
       sender.id,
