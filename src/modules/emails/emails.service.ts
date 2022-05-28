@@ -59,7 +59,7 @@ export class EmailsService {
       throw new ForbiddenException('Code does not math generated one');
     }
 
-    if (Date.now() - new Date(codeForEmail.createdAt).getTime() >= 90000) {
+    if (Date.now() - new Date(codeForEmail.createdAt).getTime() >= 600000) {
       await this.verificationCodeRepository.delete({ id: codeForEmail.id });
       throw new ForbiddenException('Code confirmation time limit exceeded');
     }
