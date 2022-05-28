@@ -5,6 +5,9 @@
 # Server connection key
 server-key.pem
 
+# ORM
+ormconfig.json
+
 # Logs
 logs
 *.log
