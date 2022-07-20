@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { join } from 'path';
-import { secret as jwtSecret } from 'src/constants/jwt-constants';
 
 import { UsersModule } from '../users/users.module';
+import { AuthModule } from '../auth/auth.module';
 
 import { EnvVariables } from 'src/types/env-variables.type';
 
@@ -43,10 +42,7 @@ import { EmailsController } from './emails.controller';
       }),
       inject: [ConfigService],
     }),
-    JwtModule.register({
-      secret: jwtSecret,
-      signOptions: { expiresIn: '60d' },
-    }),
+    AuthModule,
     UsersModule,
   ],
   controllers: [EmailsController],
