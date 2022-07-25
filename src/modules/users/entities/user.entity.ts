@@ -1,13 +1,10 @@
-import { Exclude, Expose } from 'class-transformer';
-import {
-  IsBoolean,
-  IsEmail,
-  IsPhoneNumber,
-  IsString,
-  MinLength,
-} from 'class-validator';
-import { Contact } from 'src/modules/contacts/entities/contact.entity';
+import { Exclude, Expose, Transform } from 'class-transformer';
+import { IsBoolean, IsEmail, IsString, MinLength } from 'class-validator';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Contact } from 'src/modules/contacts/entities/contact.entity';
+
+import { ToPhone } from '../transformers/to-phone.transformer';
 
 @Entity('users')
 export class User {
@@ -27,11 +24,12 @@ export class User {
 
   @Column({ unique: true })
   @IsEmail()
-  email!: string | null;
+  email!: string;
 
   @Column({ unique: true, nullable: true })
   @Exclude({ toPlainOnly: true })
-  @IsPhoneNumber()
+  @IsString({ message: 'phone must be a phone number' })
+  @Transform(ToPhone, { toClassOnly: true })
   phone!: string | null;
 
   @Column({ type: 'bool', default: false })

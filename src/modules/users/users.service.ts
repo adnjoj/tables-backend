@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 
@@ -26,7 +26,27 @@ export class UsersService {
     return this.userRepository.save(dto);
   }
 
-  update(id: number, dto: UpdateUserDto): Promise<UpdateResult> {
+  async update(id: number, dto: UpdateUserDto): Promise<UpdateResult> {
+    if (Object.keys(dto).length === 0) {
+      return Promise.resolve({ affected: 0, raw: [], generatedMaps: [] });
+    }
+
+    const { email, phone } = dto;
+
+    if (email) {
+      const userByEmail = await this.userRepository.findOne({ email });
+      if (userByEmail?.id !== id) {
+        throw new BadRequestException('That email is already taken');
+      }
+    }
+
+    if (phone) {
+      const userByPhone = await this.userRepository.findOne({ phone });
+      if (userByPhone?.id !== id) {
+        throw new BadRequestException('That phone is already taken');
+      }
+    }
+
     return this.userRepository.update(id, dto);
   }
 
