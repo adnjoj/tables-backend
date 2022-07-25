@@ -1,5 +1,11 @@
-import { Exclude } from 'class-transformer';
-import { IsEmail, IsPhoneNumber, IsString, MinLength } from 'class-validator';
+import { Exclude, Expose } from 'class-transformer';
+import {
+  IsBoolean,
+  IsEmail,
+  IsPhoneNumber,
+  IsString,
+  MinLength,
+} from 'class-validator';
 import { Contact } from 'src/modules/contacts/entities/contact.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -21,13 +27,23 @@ export class User {
 
   @Column({ unique: true })
   @IsEmail()
-  email?: string;
+  email!: string | null;
 
   @Column({ unique: true, nullable: true })
+  @Exclude({ toPlainOnly: true })
   @IsPhoneNumber()
-  phone?: string;
+  phone!: string | null;
+
+  @Column({ type: 'bool', default: false })
+  @IsBoolean()
+  phoneIsPublic!: boolean;
 
   @OneToMany(() => Contact, (contact) => contact.owner)
   @Exclude()
-  contacts: Promise<Contact[]>;
+  contacts!: Promise<Contact[]>;
+
+  @Expose({ name: 'phone' })
+  getPhone() {
+    return this.phoneIsPublic ? this.phone : null;
+  }
 }
