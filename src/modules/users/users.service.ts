@@ -35,14 +35,14 @@ export class UsersService {
 
     if (email) {
       const userByEmail = await this.userRepository.findOne({ email });
-      if (userByEmail?.id !== id) {
+      if (userByEmail && userByEmail.id !== id) {
         throw new BadRequestException('That email is already taken');
       }
     }
 
     if (phone) {
       const userByPhone = await this.userRepository.findOne({ phone });
-      if (userByPhone?.id !== id) {
+      if (userByPhone && userByPhone.id !== id) {
         throw new BadRequestException('That phone is already taken');
       }
     }
