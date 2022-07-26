@@ -1,5 +1,5 @@
 import { PartialType, PickType } from '@nestjs/mapped-types';
-import { ValidateIf } from 'class-validator';
+import { IsOptional, ValidateIf } from 'class-validator';
 import { User } from '../entities/user.entity';
 
 export class UpdateUserDto extends PartialType(
@@ -8,7 +8,7 @@ export class UpdateUserDto extends PartialType(
   @ValidateIf((_o, value) => value !== undefined)
   username?: string;
 
-  @ValidateIf((_o, value) => value !== undefined)
+  @IsOptional()
   phone?: string;
 
   @ValidateIf((_o, value) => value !== undefined)
